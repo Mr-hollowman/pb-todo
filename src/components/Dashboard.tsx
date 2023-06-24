@@ -10,7 +10,9 @@ export default function Dashboard({ changeTheme }: any) {
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-      >change theme</Button>
+      >
+        change theme
+      </Button>
     </div>
   );
 }

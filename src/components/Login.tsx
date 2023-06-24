@@ -34,17 +34,17 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { setToastContent }: any = useContext(ToastContext);
   const { setUserInfo }: any = useContext(UserContext);
-  useEffect(()=>{
+  useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user || user === "undefined") {
       navigate("/login");
-    }else{
-      navigate("/")
+    } else {
+      navigate("/");
     }
-  },[])
+  }, []);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -74,7 +74,7 @@ export default function SignIn() {
         severity: "success",
         message: "Login Success",
       }));
-      navigate('/')
+      navigate("/");
     }
   };
 
