@@ -48,6 +48,11 @@ export default function App() {
       setThemeMode("dark");
     }
   };
+// console.log(userInfo,"userinfo")
+  const logout = ()=>{
+    localStorage.removeItem('user')
+    setUserInfo("undefined")
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -66,7 +71,7 @@ export default function App() {
                 path="/"
                 element={
                   <ProtectedRoute userInfo={userInfo}>
-                    <Dashboard changeTheme={changeTheme} />
+                    <Dashboard changeTheme={changeTheme} logout={logout} />
                   </ProtectedRoute>
                 }
               />
