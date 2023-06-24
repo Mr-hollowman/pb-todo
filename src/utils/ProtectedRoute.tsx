@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 const ProtectedRoute = (props: any) => {
   const navigate = useNavigate();
   const checkUser = () => {
-    const user = JSON.parse(localStorage.getItem("user") || JSON.stringify("undefined"));
-    (!user || user === "undefined") && navigate('/login')
+    const user = JSON.parse(
+      localStorage.getItem("user") || JSON.stringify("undefined")
+    );
+    (!user || user === "undefined") && navigate("/login");
   };
   useEffect(() => {
     checkUser();
