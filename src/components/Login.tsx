@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { URL } from "../assets/Variables";
-import Toaster from "./Toaster";
+import { ToastContext } from "../utils/ToastContextT";
 
 function Copyright(props: any) {
   return (
@@ -33,44 +33,40 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
-  const [toastContent, setToastContent] = useState({
-    open: false,
-    severity: "",
-    message: "",
-  });
+  const { setToastContent }: any = useContext(ToastContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const resp = await fetch(`${URL}/users`)
       .then((res) => res.json())
       .then((res) => {
-            const user = res.filter((item: any) => {
-              return (
-                item.mailId === data.get("email") &&
-                item.password === data.get("password")
-              );
+        const user = res.filter((item: any) => {
+          return (
+            item.mailId === data.get("email") &&
+            item.password === data.get("password")
+          );
         });
         return user;
       });
     if (resp.length === 0) {
-      setToastContent((prev)=>({...prev, open:true, severity:"error", message:"wrong credentials"}))
+      setToastContent((prev: any) => ({
+        ...prev,
+        open: true,
+        severity: "error",
+        message: "wrong credentials",
+      }));
     } else {
-      setToastContent((prev)=>({...prev, open:true, severity:"success", message:"Login Success"}))
+      setToastContent((prev: any) => ({
+        ...prev,
+        open: true,
+        severity: "success",
+        message: "Login Success",
+      }));
     }
-  };
-
-  const handleClose = () => {
-    setToastContent((prev) => ({ ...prev, open: false }));
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Toaster
-        handleClose={handleClose}
-        severity={toastContent.severity}
-        open={toastContent.open}
-        message={toastContent.message}
-      />
       <CssBaseline />
       <Box
         sx={{
