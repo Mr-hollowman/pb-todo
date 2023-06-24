@@ -1,3 +1,4 @@
 import { createContext } from "react";
 const ToastContext = createContext({});
-export { ToastContext };
+const UserContext = createContext({})
+export { ToastContext, UserContext };

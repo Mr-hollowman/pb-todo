@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { URL } from "../assets/Variables";
-import { ToastContext } from "../utils/Contexts";
+import { ToastContext, UserContext } from "../utils/Contexts";
 
 function Copyright(props: any) {
   return (
@@ -34,6 +34,7 @@ function Copyright(props: any) {
 
 export default function SignIn() {
   const { setToastContent }: any = useContext(ToastContext);
+  const { setUserInfo }: any = useContext(UserContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -56,6 +57,7 @@ export default function SignIn() {
         message: "wrong credentials",
       }));
     } else {
+      setUserInfo(resp);
       setToastContent((prev: any) => ({
         ...prev,
         open: true,
