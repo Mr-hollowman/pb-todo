@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { URL } from "../assets/Variables";
 import { ToastContext, UserContext } from "../utils/Contexts";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -33,8 +34,17 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
+  const navigate = useNavigate()
   const { setToastContent }: any = useContext(ToastContext);
   const { setUserInfo }: any = useContext(UserContext);
+  useEffect(()=>{
+    const user = localStorage.getItem("user");
+    if (!user || user === "undefined") {
+      navigate("/login");
+    }else{
+      navigate("/")
+    }
+  },[])
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -64,6 +74,7 @@ export default function SignIn() {
         severity: "success",
         message: "Login Success",
       }));
+      navigate('/')
     }
   };
 
