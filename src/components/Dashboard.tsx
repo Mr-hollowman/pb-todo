@@ -1,7 +1,9 @@
 import { Button } from "@mui/material";
-import React from "react";
-
-export default function Dashboard({ changeTheme, logout }: any) {
+import { useEffect } from "react";
+export default function Dashboard({ changeTheme, logout, checkFakeUser }: any) {
+    useEffect(()=>{
+        // checkFakeUser()
+    },[])
   return (
     <div>
       Dash board

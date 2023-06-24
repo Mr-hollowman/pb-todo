@@ -50,6 +50,24 @@ export default function App() {
     localStorage.removeItem("user");
     setUserInfo("undefined");
   };
+
+  // const checkFakeUser = async () => {
+  //   const resp = await fetch(`${URL}/users`)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       const user = res.filter((item: any) => {
+  //         return (
+  //           item.mailId === userInfo[0].mailId &&
+  //           item.password === userInfo[0].password
+  //         );
+  //       });
+  //       return user;
+  //     });
+  //   if (resp.length === 0) {
+  //     logout();
+  //   }
+  // };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -68,7 +86,11 @@ export default function App() {
                 path="/"
                 element={
                   <ProtectedRoute userInfo={userInfo}>
-                    <Dashboard changeTheme={changeTheme} logout={logout} />
+                    <Dashboard
+                      changeTheme={changeTheme}
+                      logout={logout}
+                      // checkFakeUser={checkFakeUser}
+                    />
                   </ProtectedRoute>
                 }
               />
