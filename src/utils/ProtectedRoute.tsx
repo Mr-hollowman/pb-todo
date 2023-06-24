@@ -5,9 +5,7 @@ const ProtectedRoute = (props: any) => {
   const navigate = useNavigate();
   const checkUser = () => {
     const user = JSON.parse(localStorage.getItem("user") || JSON.stringify("undefined"));
-    if (!user || user === "undefined") {
-      return navigate("/login");
-    }
+    (!user || user === "undefined") && navigate('/login')
   };
   useEffect(() => {
     checkUser();
