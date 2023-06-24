@@ -1,5 +1,5 @@
 import React from "react";
-import { Snackbar, AlertProps, SnackbarProps } from "@mui/material";
+import { Snackbar, AlertProps } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { Toastypes } from "../assets/Types";
 export default function Toaster({ open, handleClose, severity, message }: Toastypes) {

@@ -13,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { URL } from "../assets/Variables";
 import Toaster from "./Toaster";
-import { Toastypes } from "../assets/Types";
 
 function Copyright(props: any) {
   return (
