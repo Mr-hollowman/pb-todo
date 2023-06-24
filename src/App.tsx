@@ -6,7 +6,18 @@ import Toaster from "./components/Toaster";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { PaletteMode } from "@mui/material";
+
+
 export default function App() {
+  const [themeMode, setThemeMode] = useState<PaletteMode>("dark");
+  const defaultTheme = createTheme({
+    palette: {
+      mode: themeMode,
+    },
+  });
   const [toastContent, setToastContent] = useState({
     open: false,
     severity: "",
@@ -28,8 +39,17 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(userInfo));
   }, [userInfo]);
-
+  
+  const changeTheme = ()=>{
+    if(themeMode === "dark"){
+      setThemeMode("light")
+    }else{
+      setThemeMode("dark")
+    }
+  }
   return (
+    <ThemeProvider theme={defaultTheme}>
+    <CssBaseline />
     <UserContext.Provider value={{ userInfo, setUserInfo }}>
       <ToastContext.Provider value={{ toastContent, setToastContent }}>
         <Toaster
@@ -45,7 +65,7 @@ export default function App() {
               path="/"
               element={
                 <ProtectedRoute userInfo={userInfo}>
-                  <Dashboard />
+                  <Dashboard changeTheme={changeTheme} />
                 </ProtectedRoute>
               }
             />
@@ -53,5 +73,6 @@ export default function App() {
         </Router>
       </ToastContext.Provider>
     </UserContext.Provider>
+    </ThemeProvider>
   );
 }
