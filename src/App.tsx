@@ -42,13 +42,9 @@ export default function App() {
   }, [themeMode]);
 
   const changeTheme = () => {
-    if (themeMode === "dark") {
-      setThemeMode("light");
-    } else {
-      setThemeMode("dark");
-    }
+    themeMode === "dark" ? setThemeMode("light") : setThemeMode("dark")
   };
-  
+
   const logout = ()=>{
     localStorage.removeItem('user')
     setUserInfo("undefined")
