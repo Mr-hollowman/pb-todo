@@ -48,7 +48,7 @@ export default function App() {
       setThemeMode("dark");
     }
   };
-// console.log(userInfo,"userinfo")
+  
   const logout = ()=>{
     localStorage.removeItem('user')
     setUserInfo("undefined")
