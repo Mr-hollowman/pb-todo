@@ -97,7 +97,7 @@ export default function App() {
           userId: userInfo[0].id,
           todos: [
             ...prev?.todos,
-            { id: prev?.todos?.length + 1 || 0, titile: temp, subTodo: [], active:true },
+            { id: prev?.todos?.length + 1 || 0, title: temp, subTodo: [], active:true },
           ],
         };
       } else {
@@ -111,7 +111,7 @@ export default function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <TodoContext.Provider value={{ todo, createTodo }}>
+      <TodoContext.Provider value={{ todo, createTodo, changeTheme, themeMode, logout }}>
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
           <ToastContext.Provider value={{ toastContent, setToastContent }}>
             <Toaster
