@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
+import { URL } from "./assets/Variables";
 
 export default function App() {
   // theme funcitons
@@ -82,11 +83,11 @@ export default function App() {
   const [todo, setTodo] = useState<any>(
     JSON.parse(localStorage.getItem("todo") || JSON.stringify("undefined"))
   );
-  console.log(userInfo, "userinfo var");
-  console.log(todo, "todo var");
+
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(todo));
   }, [todo]);
+
   const createTodo = async (temp: String) => {
     setTodo((prev: any) => {
       console.log(prev, "prev");
@@ -96,13 +97,13 @@ export default function App() {
           userId: userInfo[0].id,
           todos: [
             ...prev?.todos,
-            { id: prev?.todos?.length + 1 || 0, titile: temp, subTodo: [] },
+            { id: prev?.todos?.length + 1 || 0, titile: temp, subTodo: [], active:true },
           ],
         };
       } else {
         return {
           userId: userInfo[0].id,
-          todos: [{ id: 0, title: temp, subTodo: [] }],
+          todos: [{ id: 0, title: temp, subTodo: [], active:true }],
         };
       }
     });
