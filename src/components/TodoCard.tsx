@@ -2,8 +2,6 @@ import { Box, Container, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { TodoContext } from "../utils/Contexts";
 import {
-  ArrowDownward,
-  ArrowDownwardOutlined,
   ArrowDropDown,
   ArrowDropUp,
 } from "@mui/icons-material";
@@ -13,7 +11,7 @@ export default function TodoCard() {
   const [todoExpand, setTodoExpand] = useState(null);
   console.log(todoExpand, "todo expand");
   return (
-    <Container>
+    <Container maxWidth="sm">
       {todo &&
         todo?.todos?.map((item: any, index: any) => {
           return (
@@ -24,6 +22,7 @@ export default function TodoCard() {
                 alignItems: "center",
                 padding: 1,
                 bgcolor: "text.secondary",
+                margin:2
               }}
             >
               {todoExpand === index ? (
