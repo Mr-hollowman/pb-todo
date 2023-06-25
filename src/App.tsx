@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ToastContext, UserContext } from "./utils/Contexts";
+import { ToastContext, TodoContext, UserContext } from "./utils/Contexts";
 import Toaster from "./components/Toaster";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
@@ -11,13 +11,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
 
 export default function App() {
-  const getTheme = ()=>{
-    const themeS = localStorage.getItem("theme")
-    if(themeS){
-      return JSON.parse(themeS)
+  // theme funcitons
+  const getTheme = () => {
+    const themeS = localStorage.getItem("theme");
+    if (themeS) {
+      return JSON.parse(themeS);
     }
-    return "dark"
-  }
+    return "dark";
+  };
   const [themeMode, setThemeMode] = useState<PaletteMode>(
     getTheme() === "light" ? "light" : "dark"
   );
@@ -26,6 +27,16 @@ export default function App() {
       mode: themeMode,
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(themeMode));
+  }, [themeMode]);
+
+  const changeTheme = () => {
+    themeMode === "dark" ? setThemeMode("light") : setThemeMode("dark");
+  };
+
+  // toast functions
   const [toastContent, setToastContent] = useState({
     open: false,
     severity: "",
@@ -35,6 +46,7 @@ export default function App() {
     setToastContent((prev: any) => ({ ...prev, open: false }));
   };
 
+  // user info related funcionssss
   const [userInfo, setUserInfo] = useState<any>(
     JSON.parse(localStorage.getItem("user") || JSON.stringify("undefined"))
   );
@@ -43,14 +55,6 @@ export default function App() {
     userInfo != "undefined" &&
       localStorage.setItem("user", JSON.stringify(userInfo));
   }, [userInfo]);
-
-  useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(themeMode));
-  }, [themeMode]);
-
-  const changeTheme = () => {
-    themeMode === "dark" ? setThemeMode("light") : setThemeMode("dark");
-  };
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -74,36 +78,67 @@ export default function App() {
   //   }
   // };
 
+  //  todo related functions
+  const [todo, setTodo] = useState<any>(
+    JSON.parse(localStorage.getItem("todo") || JSON.stringify("undefined"))
+  );
+  console.log(userInfo, "userinfo var");
+  console.log(todo, "todo var");
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todo));
+  }, [todo]);
+  const createTodo = async (temp: String) => {
+    setTodo((prev: any) => {
+      console.log(prev, "prev");
+      if (prev && prev != "undefined") {
+        return {
+          ...prev,
+          userId: userInfo[0].id,
+          todos: [
+            ...prev?.todos,
+            { id: prev?.todos?.length + 1 || 0, titile: temp, subTodo: [] },
+          ],
+        };
+      } else {
+        return {
+          userId: userInfo[0].id,
+          todos: [{ id: 0, title: temp, subTodo: [] }],
+        };
+      }
+    });
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <UserContext.Provider value={{ userInfo, setUserInfo }}>
-        <ToastContext.Provider value={{ toastContent, setToastContent }}>
-          <Toaster
-            handleClose={handleClose}
-            severity={toastContent.severity}
-            open={toastContent.open}
-            message={toastContent.message}
-          />
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute userInfo={userInfo}>
-                    <Dashboard
-                      changeTheme={changeTheme}
-                      logout={logout}
-                      // checkFakeUser={checkFakeUser}
-                    />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Router>
-        </ToastContext.Provider>
-      </UserContext.Provider>
+      <TodoContext.Provider value={{ todo, createTodo }}>
+        <UserContext.Provider value={{ userInfo, setUserInfo }}>
+          <ToastContext.Provider value={{ toastContent, setToastContent }}>
+            <Toaster
+              handleClose={handleClose}
+              severity={toastContent.severity}
+              open={toastContent.open}
+              message={toastContent.message}
+            />
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute userInfo={userInfo}>
+                      <Dashboard
+                        changeTheme={changeTheme}
+                        logout={logout}
+                        // checkFakeUser={checkFakeUser}
+                      />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Router>
+          </ToastContext.Provider>
+        </UserContext.Provider>
+      </TodoContext.Provider>
     </ThemeProvider>
   );
 }

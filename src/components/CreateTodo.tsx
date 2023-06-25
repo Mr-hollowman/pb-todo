@@ -1,15 +1,33 @@
 import { AddCircleOutlineRounded, PlusOneOutlined } from "@mui/icons-material";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useContext, useState } from "react";
+import { TodoContext } from "../utils/Contexts";
 
 export default function CreateTodo() {
+  const { createTodo }: any = useContext(TodoContext);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    createTodo(data.get("todo"));
+    event.currentTarget.reset();
+  };
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit}
       sx={{
         margin: 1,
         display: "flex",
+        justifyContent: "center",
         alignItems: "center",
-        padding:2
+        padding: 2,
       }}
     >
       <TextField
@@ -18,10 +36,24 @@ export default function CreateTodo() {
         id="text"
         placeholder="Create todo"
         autoFocus
+        name="todo"
       />
-      <IconButton aria-label="add" size="large">
-        <AddCircleOutlineRounded fontSize="inherit" />
-      </IconButton>
+      <Button
+        type="submit"
+        sx={{
+          padding: "10px 13px 10px 13px",
+          margin: "5px",
+          display: "flex",
+          justifyContent: "center",
+          gap: "10px",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ bgcolor: "secondary.main" }}>
+          <AddCircleOutlineRounded fontSize="medium" />
+        </Avatar>
+        <Typography>Add</Typography>
+      </Button>
     </Box>
   );
 }
