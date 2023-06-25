@@ -9,7 +9,6 @@ import Dashboard from "./components/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
-import { URL } from "./assets/Variables";
 
 export default function App() {
   // theme funcitons
