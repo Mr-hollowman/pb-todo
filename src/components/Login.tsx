@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -37,6 +37,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { setToastContent }: any = useContext(ToastContext);
   const { setUserInfo }: any = useContext(UserContext);
+  const [isSignUp, setIsSignup] = useState(false);
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user || user === "undefined") {
@@ -48,33 +49,66 @@ export default function SignIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const resp = await fetch(`${URL}/users`)
-      .then((res) => res.json())
-      .then((res) => {
-        const user = res.filter((item: any) => {
-          return (
-            item.mailId === data.get("email") &&
-            item.password === data.get("password")
-          );
+    if (!isSignUp) {
+      const resp = await fetch(`${URL}/users`)
+        .then((res) => res.json())
+        .then((res) => {
+          const user = res.filter((item: any) => {
+            return (
+              item.mailId === data.get("email") &&
+              item.password === data.get("password")
+            );
+          });
+          return user;
         });
-        return user;
-      });
-    if (resp.length === 0) {
-      setToastContent((prev: any) => ({
-        ...prev,
-        open: true,
-        severity: "error",
-        message: "wrong credentials",
-      }));
+      if (resp.length === 0) {
+        setToastContent((prev: any) => ({
+          ...prev,
+          open: true,
+          severity: "error",
+          message: "wrong credentials",
+        }));
+      } else {
+        setUserInfo(resp);
+        setToastContent((prev: any) => ({
+          ...prev,
+          open: true,
+          severity: "success",
+          message: "Login Success",
+        }));
+        navigate("/");
+      }
     } else {
-      setUserInfo(resp);
-      setToastContent((prev: any) => ({
-        ...prev,
-        open: true,
-        severity: "success",
-        message: "Login Success",
-      }));
-      navigate("/");
+      await fetch(`${URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          mailId: data.get("email"),
+          password: data.get("password"),
+          fullName: data.get("fullName"),
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setUserInfo(res);
+          setToastContent((prev: any) => ({
+            ...prev,
+            open: true,
+            severity: "success",
+            message: "SignUp Success",
+          }));
+          navigate("/");
+        })
+        .catch((err) => {
+          setToastContent((prev: any) => ({
+            ...prev,
+            open: true,
+            severity: "error",
+            message: "something went wrong",
+          }));
+        });
     }
   };
 
@@ -93,7 +127,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {isSignUp ? "Sign up" : "Sign in"}
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -116,28 +150,46 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          {isSignUp && (
+            <>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="text"
+                label="Full Name"
+                name="fullName"
+                autoFocus
+              />
+            </>
+          )}
+          {!isSignUp && (
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            {isSignUp ? "Sign up" : "Sign in"}
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Button
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() =>
+                  isSignUp ? setIsSignup(false) : setIsSignup(true)
+                }
+              >
+                {isSignUp
+                  ? "Already have an accoutn? Sign In"
+                  : "Don't have an account? Sign Up"}
+              </Button>
             </Grid>
           </Grid>
         </Box>

@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "mailId": "nothing@gmail.com",
+      "password": "nothing",
+      "fullName": "nothing",
+      "id": 1
+    }
+  ],
+  "todo": []
+}

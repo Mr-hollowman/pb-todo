@@ -1,1 +1,1 @@
-export const URL = "https://my-json-server.typicode.com/Mr-hollowman/pb-todo-db"
+export const URL = "http://localhost:3000"

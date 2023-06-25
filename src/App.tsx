@@ -11,9 +11,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
 
 export default function App() {
-  const themeS = JSON.parse(localStorage.getItem("theme") || "dark");
+  const getTheme = ()=>{
+    const themeS = localStorage.getItem("theme")
+    if(themeS){
+      return JSON.parse(themeS)
+    }
+    return "dark"
+  }
   const [themeMode, setThemeMode] = useState<PaletteMode>(
-    themeS === "light" ? "light" : "dark"
+    getTheme() === "light" ? "light" : "dark"
   );
   const defaultTheme = createTheme({
     palette: {
