@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { TodoContext } from "../utils/Contexts";
 
 export default function CreateTodo() {
