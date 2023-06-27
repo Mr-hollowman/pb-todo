@@ -4,6 +4,8 @@ import { TodoContext } from "../utils/Contexts";
 import {
   ArrowDropDown,
   ArrowDropUp,
+  CheckCircleOutlineOutlined,
+  DeleteForeverOutlined,
 } from "@mui/icons-material";
 
 export default function TodoCard() {
@@ -20,18 +22,33 @@ export default function TodoCard() {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                padding: 1,
-                bgcolor: "text.secondary",
-                margin:2
+                padding: 2,
+                margin: 2,
+                gap: 1,
+                borderBottom: "1px solid #fff",
+                justifyContent: "space-between",
               }}
             >
-              {todoExpand === index ? (
-                <ArrowDropUp onClick={() => setTodoExpand(index)} />
-              ) : (
-                <ArrowDropDown onClick={() => setTodoExpand(index)} />
-              )}
-              <Box>
-                <Typography>{item.title}</Typography>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {todoExpand === index ? (
+                  <ArrowDropUp onClick={() => setTodoExpand(index)} />
+                ) : (
+                  <ArrowDropDown onClick={() => setTodoExpand(index)} />
+                )}
+                <Box>
+                  {
+                    <Typography style={{textDecoration: item.active ? "none" : "line-through" }}>
+                      {item.title}
+                    </Typography>
+                  }
+                </Box>
+              </Box>
+              <Box sx={{ display: "flex", gap: "15px" }}>
+                {item.active ? (
+                  <CheckCircleOutlineOutlined />
+                ) : (
+                  <DeleteForeverOutlined />
+                )}
               </Box>
             </Box>
           );
