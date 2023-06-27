@@ -10,7 +10,8 @@ import {
 } from "@mui/icons-material";
 
 export default function TodoCard() {
-  const { todo, markCompleted, deleteTodo, createSubTodo }: any = useContext(TodoContext);
+  const { todo, markCompleted, deleteTodo, createSubTodo }: any =
+    useContext(TodoContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
     <Container maxWidth="sm">
@@ -20,43 +21,63 @@ export default function TodoCard() {
             <Box
               key={index}
               sx={{
-                display: "flex",
-                alignItems: "center",
                 padding: 2,
                 margin: 2,
-                gap: 1,
                 borderBottom: "1px solid #fff",
-                justifyContent: "space-between",
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                {todoExpand === index ? (
-                  <ArrowDropUp onClick={() => setTodoExpand(index)} />
-                ) : (
-                  <ArrowDropDown onClick={() => setTodoExpand(index)} />
-                )}
-                <Box>
-                  {
-                    <Typography
-                      style={{
-                        textDecoration: item.active ? "none" : "line-through",
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                  }
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 1,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  {todoExpand === index ? (
+                    <ArrowDropUp onClick={() => setTodoExpand(index)} />
+                  ) : (
+                    <ArrowDropDown onClick={() => setTodoExpand(index)} />
+                  )}
+                  <Box>
+                    {
+                      <Typography
+                        style={{
+                          textDecoration: item.active ? "none" : "line-through",
+                        }}
+                      >
+                        {item.title}
+                      </Typography>
+                    }
+                  </Box>
+                </Box>
+                <Box sx={{ display: "flex", gap: "15px" }}>
+                  <AddCircleOutlineRounded
+                    onClick={() => createSubTodo(item.id, "first subtodo")}
+                  />
+                  {item.active ? (
+                    <CheckCircleOutlineOutlined
+                      onClick={() => markCompleted(item.id)}
+                    />
+                  ) : (
+                    <DeleteForeverOutlined
+                      onClick={() => deleteTodo(item.id)}
+                    />
+                  )}
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", gap: "15px" }}>
-                <AddCircleOutlineRounded onClick={()=>createSubTodo(item.id, "first subtodo")} />
-                {item.active ? (
-                  <CheckCircleOutlineOutlined
-                    onClick={() => markCompleted(item.id)}
-                  />
-                ) : (
-                  <DeleteForeverOutlined onClick={() => deleteTodo(item.id)} />
-                )}
-              </Box>
+              {todoExpand === index && (
+                <Box>
+                  {item?.subTodo?.map((item: any, index: Number) => {
+                    return (
+                      <Box key={index + "100"}>
+                        <Typography>{item.title}</Typography>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              )}
             </Box>
           );
         })}

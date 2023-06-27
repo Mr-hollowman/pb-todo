@@ -147,13 +147,15 @@ export default function App() {
           title: tempSubTodo,
           active: true,
         });
-        return item;
       }
+      return item;
     });
-    setTodo((prev: any) => ({
-      ...prev,
-      todos: newTodo,
-    }));
+    setTodo((prev: any) => {
+      return {
+        ...prev,
+        todos: newTodo,
+      };
+    });
   };
 
   return (
