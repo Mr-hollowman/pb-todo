@@ -10,7 +10,7 @@ import {
 } from "@mui/icons-material";
 
 export default function TodoCard() {
-  const { todo, markCompleted, deleteTodo }: any = useContext(TodoContext);
+  const { todo, markCompleted, deleteTodo, createSubTodo }: any = useContext(TodoContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
     <Container maxWidth="sm">
@@ -48,7 +48,7 @@ export default function TodoCard() {
                 </Box>
               </Box>
               <Box sx={{ display: "flex", gap: "15px" }}>
-                <AddCircleOutlineRounded  />
+                <AddCircleOutlineRounded onClick={()=>createSubTodo(item.id, "first subtodo")} />
                 {item.active ? (
                   <CheckCircleOutlineOutlined
                     onClick={() => markCompleted(item.id)}

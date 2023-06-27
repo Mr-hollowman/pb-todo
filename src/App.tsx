@@ -139,12 +139,21 @@ export default function App() {
     setTodo((prev: any) => ({ ...prev, todos: newTodo }));
   };
 
-  const createSubTodo = (id: Number) => {
+  const createSubTodo = (id: Number, tempSubTodo: String) => {
     const newTodo = todo.todos.map((item: any) => {
-      if(item.id === id){
-        
+      if (item.id === id) {
+        item.subTodo.push({
+          id: item.subTodo.length + 1,
+          title: tempSubTodo,
+          active: true,
+        });
+        return item;
       }
     });
+    setTodo((prev: any) => ({
+      ...prev,
+      todos: newTodo,
+    }));
   };
 
   return (
@@ -159,6 +168,7 @@ export default function App() {
           logout,
           markCompleted,
           deleteTodo,
+          createSubTodo,
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
