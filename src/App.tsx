@@ -139,6 +139,8 @@ export default function App() {
     setTodo((prev: any) => ({ ...prev, todos: newTodo }));
   };
 
+  // subtodo related functions
+
   const createSubTodo = (id: Number, tempSubTodo: String) => {
     const newTodo = todo.todos.map((item: any) => {
       if (item.id === id) {
@@ -147,6 +149,25 @@ export default function App() {
           title: tempSubTodo,
           active: true,
         });
+      }
+      return item;
+    });
+    setTodo((prev: any) => {
+      return {
+        ...prev,
+        todos: newTodo,
+      };
+    });
+  };
+
+  const markSubTodoCompleted = (parId: any, id: Number) => {
+    const newTodo = todo.todos.map((item: any) => {
+      if (item.id === parId) {
+        item.subTodo.map((it2:any)=>{
+          if(it2.id === id){
+            it2.active = false
+          }
+        })
       }
       return item;
     });
@@ -171,6 +192,7 @@ export default function App() {
           markCompleted,
           deleteTodo,
           createSubTodo,
+          markSubTodoCompleted,
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>

@@ -4,8 +4,11 @@ import {
   FiberManualRecordRounded,
 } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
+import { TodoContext } from "../utils/Contexts";
 
-export default function SubTodoCard({ data }: any) {
+export default function SubTodoCard({ data, parId }: any) {
+  const { markSubTodoCompleted }: any = useContext(TodoContext);
   return (
     <Box sx={{ padding: 2 }}>
       {data?.subTodo?.map((item: any, index: Number) => {
@@ -14,7 +17,10 @@ export default function SubTodoCard({ data }: any) {
             <FiberManualRecordRounded fontSize="small" />
             <Typography sx={{ color: "info.main" }}>{item.title}</Typography>
             {item.active ? (
-              <CheckCircleOutlineOutlined fontSize="small" onClick={() => {}} />
+              <CheckCircleOutlineOutlined
+                fontSize="small"
+                onClick={() => markSubTodoCompleted(parId, item.id)}
+              />
             ) : (
               <DeleteForeverOutlined fontSize="small" onClick={() => {}} />
             )}

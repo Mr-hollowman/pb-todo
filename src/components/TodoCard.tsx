@@ -37,9 +37,23 @@ export default function TodoCard() {
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   {todoExpand === index ? (
-                    <ArrowDropUp onClick={() => todoExpand !== null ? setTodoExpand(null): setTodoExpand(index)} fontSize="large"/>
+                    <ArrowDropUp
+                      onClick={() =>
+                        todoExpand !== null
+                          ? setTodoExpand(null)
+                          : setTodoExpand(index)
+                      }
+                      fontSize="large"
+                    />
                   ) : (
-                    <ArrowDropDown onClick={() => todoExpand !== null ? setTodoExpand(null): setTodoExpand(index)} fontSize="large"/>
+                    <ArrowDropDown
+                      onClick={() =>
+                        todoExpand !== null
+                          ? setTodoExpand(null)
+                          : setTodoExpand(index)
+                      }
+                      fontSize="large"
+                    />
                   )}
                   <Box>
                     {
@@ -68,7 +82,9 @@ export default function TodoCard() {
                   )}
                 </Box>
               </Box>
-              {todoExpand === index && <SubTodoCard data={item} />}
+              {todoExpand === index && (
+                <SubTodoCard data={item} parId={item.id} />
+              )}
             </Box>
           );
         })}
