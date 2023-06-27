@@ -37,9 +37,9 @@ export default function TodoCard() {
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   {todoExpand === index ? (
-                    <ArrowDropUp onClick={() => setTodoExpand(index)} />
+                    <ArrowDropUp onClick={() => setTodoExpand(index)} fontSize="large"/>
                   ) : (
-                    <ArrowDropDown onClick={() => setTodoExpand(index)} />
+                    <ArrowDropDown onClick={() => setTodoExpand(index)} fontSize="large"/>
                   )}
                   <Box>
                     {
