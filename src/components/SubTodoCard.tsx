@@ -4,12 +4,12 @@ import React from "react";
 
 export default function SubTodoCard({ data }: any) {
   return (
-    <Box>
+    <Box sx={{padding:2}}>
       {data?.subTodo?.map((item: any, index: Number) => {
         return (
-          <Box key={index + "100"} sx={{ display: "flex" }}>
+          <Box key={index + "100"} sx={{ display: "flex", gap:'10px' }}>
             <FiberManualRecordRounded fontSize="small" />
-            <Typography style={{ color: "text.secondary" }}>
+            <Typography sx={{ color: "info.main" }}>
               {item.title}
             </Typography>
           </Box>
