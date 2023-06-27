@@ -9,9 +9,8 @@ import {
 } from "@mui/icons-material";
 
 export default function TodoCard() {
-  const { todo, markCompleted }: any = useContext(TodoContext);
+  const { todo, markCompleted, deleteTodo }: any = useContext(TodoContext);
   const [todoExpand, setTodoExpand] = useState(null);
-  console.log(todoExpand, "todo expand");
   return (
     <Container maxWidth="sm">
       {todo &&
@@ -53,7 +52,7 @@ export default function TodoCard() {
                     onClick={() => markCompleted(item.id)}
                   />
                 ) : (
-                  <DeleteForeverOutlined />
+                  <DeleteForeverOutlined onClick={() => deleteTodo(item.id)} />
                 )}
               </Box>
             </Box>

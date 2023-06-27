@@ -120,9 +120,12 @@ export default function App() {
       }
       return item;
     });
-    setTodo((prev: any) => {
-      return { ...prev, todos: newTodo };
-    });
+    setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+  };
+
+  const deleteTodo = (id: Number) => {
+    const newTodo = todo.todos.filter((item: any) => item.id !== id);
+    setTodo((prev: any) => ({ ...prev, todos: newTodo }));
   };
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -135,6 +138,7 @@ export default function App() {
           themeMode,
           logout,
           markCompleted,
+          deleteTodo,
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
