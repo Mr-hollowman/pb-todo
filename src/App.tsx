@@ -89,7 +89,6 @@ export default function App() {
 
   const createTodo = async (temp: String) => {
     setTodo((prev: any) => {
-      console.log(prev, "prev");
       if (prev && prev != "undefined") {
         return {
           ...prev,
@@ -121,6 +120,18 @@ export default function App() {
       return item;
     });
     setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+  };
+
+  const checkSubTodoFinished = (id: Number) => {
+    const temp = todo.todos.filter((item: any) => item.id === id);
+    const res = temp?.subTodo?.map((item: any) => {
+      if (item.active) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    return res;
   };
 
   const deleteTodo = (id: Number) => {
