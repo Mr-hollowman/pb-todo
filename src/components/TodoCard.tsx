@@ -2,6 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { TodoContext } from "../utils/Contexts";
 import {
+  AddCircleOutlineRounded,
   ArrowDropDown,
   ArrowDropUp,
   CheckCircleOutlineOutlined,
@@ -47,6 +48,7 @@ export default function TodoCard() {
                 </Box>
               </Box>
               <Box sx={{ display: "flex", gap: "15px" }}>
+                <AddCircleOutlineRounded  />
                 {item.active ? (
                   <CheckCircleOutlineOutlined
                     onClick={() => markCompleted(item.id)}

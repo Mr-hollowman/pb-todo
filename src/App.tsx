@@ -138,6 +138,15 @@ export default function App() {
     const newTodo = todo.todos.filter((item: any) => item.id !== id);
     setTodo((prev: any) => ({ ...prev, todos: newTodo }));
   };
+
+  const createSubTodo = (id: Number) => {
+    const newTodo = todo.todos.map((item: any) => {
+      if(item.id === id){
+        
+      }
+    });
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
