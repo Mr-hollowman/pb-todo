@@ -8,6 +8,7 @@ import {
   CheckCircleOutlineOutlined,
   DeleteForeverOutlined,
 } from "@mui/icons-material";
+import SubTodoCard from "./SubTodoCard";
 
 export default function TodoCard() {
   const { todo, markCompleted, deleteTodo, createSubTodo }: any =
@@ -67,17 +68,7 @@ export default function TodoCard() {
                   )}
                 </Box>
               </Box>
-              {todoExpand === index && (
-                <Box>
-                  {item?.subTodo?.map((item: any, index: Number) => {
-                    return (
-                      <Box key={index + "100"}>
-                        <Typography>{item.title}</Typography>
-                      </Box>
-                    );
-                  })}
-                </Box>
-              )}
+              {todoExpand === index && <SubTodoCard data={item} />}
             </Box>
           );
         })}
