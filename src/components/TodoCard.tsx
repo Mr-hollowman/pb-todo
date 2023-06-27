@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 
 export default function TodoCard() {
-  const { todo }: any = useContext(TodoContext);
+  const { todo, markCompleted }: any = useContext(TodoContext);
   const [todoExpand, setTodoExpand] = useState(null);
   console.log(todoExpand, "todo expand");
   return (
@@ -37,7 +37,11 @@ export default function TodoCard() {
                 )}
                 <Box>
                   {
-                    <Typography style={{textDecoration: item.active ? "none" : "line-through" }}>
+                    <Typography
+                      style={{
+                        textDecoration: item.active ? "none" : "line-through",
+                      }}
+                    >
                       {item.title}
                     </Typography>
                   }
@@ -45,7 +49,9 @@ export default function TodoCard() {
               </Box>
               <Box sx={{ display: "flex", gap: "15px" }}>
                 {item.active ? (
-                  <CheckCircleOutlineOutlined />
+                  <CheckCircleOutlineOutlined
+                    onClick={() => markCompleted(item.id)}
+                  />
                 ) : (
                   <DeleteForeverOutlined />
                 )}

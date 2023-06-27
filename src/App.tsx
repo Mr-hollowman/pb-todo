@@ -96,21 +96,47 @@ export default function App() {
           userId: userInfo[0].id,
           todos: [
             ...prev?.todos,
-            { id: prev?.todos?.length + 1 || 0, title: temp, subTodo: [], active:true },
+            {
+              id: prev?.todos?.length + 1 || 0,
+              title: temp,
+              subTodo: [],
+              active: true,
+            },
           ],
         };
       } else {
         return {
           userId: userInfo[0].id,
-          todos: [{ id: 0, title: temp, subTodo: [], active:true }],
+          todos: [{ id: 0, title: temp, subTodo: [], active: true }],
         };
       }
+    });
+  };
+
+  const markCompleted = (id: Number) => {
+    const newTodo = todo.todos.map((item: any) => {
+      if (item.id === id) {
+        item.active = false;
+      }
+      return item;
+    });
+    setTodo((prev: any) => {
+      return { ...prev, todos: newTodo };
     });
   };
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <TodoContext.Provider value={{ todo, createTodo, changeTheme, themeMode, logout }}>
+      <TodoContext.Provider
+        value={{
+          todo,
+          createTodo,
+          changeTheme,
+          themeMode,
+          logout,
+          markCompleted,
+        }}
+      >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
           <ToastContext.Provider value={{ toastContent, setToastContent }}>
             <Toaster
