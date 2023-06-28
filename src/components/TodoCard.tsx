@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ToastContext, TodoContext } from "../utils/Contexts";
 import {
   AddCircleOutlineRounded,
@@ -11,7 +11,7 @@ import {
 import SubTodoCard from "./SubTodoCard";
 
 export default function TodoCard() {
-  const { todo, markCompleted, deleteTodo, createSubTodo, activePage }: any =
+  const { todo, markCompleted, activePage }: any =
     useContext(TodoContext);
   const { triggerModel }: any = useContext(ToastContext);
   const [todoExpand, setTodoExpand] = useState(null);
@@ -33,7 +33,7 @@ export default function TodoCard() {
                 sx={{
                   padding: 2,
                   margin: 2,
-                  borderBottom: "1px solid #fff",
+                  borderBottom: "1px solid ",
                 }}
               >
                 <Box
