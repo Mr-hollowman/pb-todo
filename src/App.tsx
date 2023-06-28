@@ -209,6 +209,7 @@ export default function App() {
         todos: newTodo,
       };
     });
+    triggerToast('success', "SubTodo deleted")
   };
 
   return (
