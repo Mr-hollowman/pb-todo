@@ -35,7 +35,7 @@ function Copyright(props: any) {
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { setToastContent }: any = useContext(ToastContext);
+  const { triggerToast }: any = useContext(ToastContext);
   const { setUserInfo }: any = useContext(UserContext);
   const [isSignUp, setIsSignup] = useState(false);
   useEffect(() => {
@@ -62,20 +62,10 @@ export default function SignIn() {
           return user;
         });
       if (resp.length === 0) {
-        setToastContent((prev: any) => ({
-          ...prev,
-          open: true,
-          severity: "error",
-          message: "wrong credentials",
-        }));
+        triggerToast("error", "wrong credentials");
       } else {
         setUserInfo(resp);
-        setToastContent((prev: any) => ({
-          ...prev,
-          open: true,
-          severity: "success",
-          message: "Login Success",
-        }));
+        triggerToast("success", "Login success");
         navigate("/");
       }
     } else {
@@ -93,21 +83,11 @@ export default function SignIn() {
         .then((res) => res.json())
         .then((res) => {
           setUserInfo(res);
-          setToastContent((prev: any) => ({
-            ...prev,
-            open: true,
-            severity: "success",
-            message: "SignUp Success",
-          }));
+          triggerToast("success", "Signup Success");
           navigate("/");
         })
         .catch((err) => {
-          setToastContent((prev: any) => ({
-            ...prev,
-            open: true,
-            severity: "error",
-            message: "something went wrong",
-          }));
+          triggerToast("error", "Something went wrong");
         });
     }
   };

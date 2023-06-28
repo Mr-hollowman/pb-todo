@@ -46,6 +46,15 @@ export default function App() {
     setToastContent((prev: any) => ({ ...prev, open: false }));
   };
 
+  const triggerToast = (severity: String, message: String) => {
+    setToastContent((prev: any) => ({
+      ...prev,
+      open: true,
+      severity: severity,
+      message: message,
+    }));
+  };
+
   // user info related funcionssss
   const [userInfo, setUserInfo] = useState<any>(
     JSON.parse(localStorage.getItem("user") || JSON.stringify("undefined"))
@@ -110,12 +119,7 @@ export default function App() {
         };
       }
     });
-    setToastContent((prev: any) => ({
-      ...prev,
-      open: true,
-      severity: "success",
-      message: "Todo created",
-    }));
+    triggerToast("success", "Todo created");
   };
 
   const markCompleted = (id: Number) => {
@@ -130,7 +134,6 @@ export default function App() {
 
   const checkSubTodoFinished = (id: Number) => {
     const temp = todo.todos.filter((item: any) => item.id === id);
-    console.log(temp);
     if (temp[0].subTodo.length === 0) return true;
 
     for (let i = 0; i < temp[0].subTodo.length; i++) {
@@ -146,19 +149,9 @@ export default function App() {
     if (checkSubTodoFinished(id)) {
       const newTodo = todo.todos.filter((item: any) => item.id !== id);
       setTodo((prev: any) => ({ ...prev, todos: newTodo }));
-      setToastContent((prev: any) => ({
-        ...prev,
-        open: true,
-        severity: "success",
-        message: "Todo deleted successfully",
-      }));
+      triggerToast("success", "Todo deleted successfully");
     } else {
-      setToastContent((prev: any) => ({
-        ...prev,
-        open: true,
-        severity: "warning",
-        message: "Some Subtodo is active",
-      }));
+      triggerToast("warning", "some SubTodo is active");
     }
   };
 
@@ -181,12 +174,7 @@ export default function App() {
         todos: newTodo,
       };
     });
-    setToastContent((prev: any) => ({
-      ...prev,
-      open: true,
-      severity: "success",
-      message: "Subtodo created",
-    }));
+    triggerToast("success", "SubTodo created");
   };
 
   const markSubTodoCompleted = (parId: any, id: Number) => {
@@ -241,7 +229,7 @@ export default function App() {
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
-          <ToastContext.Provider value={{ toastContent, setToastContent }}>
+          <ToastContext.Provider value={{ toastContent, triggerToast }}>
             <Toaster
               handleClose={handleClose}
               severity={toastContent.severity}
