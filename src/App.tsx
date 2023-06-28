@@ -129,7 +129,7 @@ export default function App() {
   }, [todo]);
 
   const createTodo = async (temp: String) => {
-    if (temp === "") {
+    if (temp.trim() === "" ) {
       return triggerToast("warning", "Cannot create empty todo");
     }
     setTodo((prev: any) => {
