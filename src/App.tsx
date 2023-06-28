@@ -5,10 +5,10 @@ import { ToastContext, TodoContext, UserContext } from "./utils/Contexts";
 import Toaster from "./components/Toaster";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
+import { ModelContentTypes, ToastContentTypes } from "./assets/Types";
 
 export default function App() {
   // theme funcitons
@@ -37,7 +37,7 @@ export default function App() {
   };
 
   // toast functions
-  const [toastContent, setToastContent] = useState({
+  const [toastContent, setToastContent] = useState<ToastContentTypes>({
     open: false,
     severity: "",
     message: "",
@@ -56,10 +56,12 @@ export default function App() {
   };
 
   // model related functions
-  const [modelContent, setModelContent] = useState({
+  const [modelContent, setModelContent] = useState<ModelContentTypes>({
     open: false,
     title: "",
     message: "",
+    isDelete: false,
+    id:1000
   });
 
   const triggerModel = (
@@ -123,7 +125,7 @@ export default function App() {
   const [todo, setTodo] = useState<any>(
     JSON.parse(localStorage.getItem("todo") || JSON.stringify("undefined"))
   );
-  const [activePage, setActivePage] = useState("All")
+  const [activePage, setActivePage] = useState("All");
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(todo));
@@ -272,7 +274,7 @@ export default function App() {
           markSubTodoCompleted,
           deleteSubTodo,
           setActivePage,
-          activePage
+          activePage,
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
