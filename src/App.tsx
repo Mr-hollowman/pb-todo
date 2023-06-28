@@ -163,11 +163,26 @@ export default function App() {
   const markSubTodoCompleted = (parId: any, id: Number) => {
     const newTodo = todo.todos.map((item: any) => {
       if (item.id === parId) {
-        item.subTodo.map((it2:any)=>{
-          if(it2.id === id){
-            it2.active = false
+        item.subTodo.map((it2: any) => {
+          if (it2.id === id) {
+            it2.active = false;
           }
-        })
+        });
+      }
+      return item;
+    });
+    setTodo((prev: any) => {
+      return {
+        ...prev,
+        todos: newTodo,
+      };
+    });
+  };
+
+  const deleteSubTodo = (parId: any, id: Number) => {
+    const newTodo = todo.todos.map((item: any) => {
+      if (item.id === parId) {
+        item.subTodo = item.subTodo.filter((it2: any) => it2.id !== id);
       }
       return item;
     });
@@ -193,6 +208,7 @@ export default function App() {
           deleteTodo,
           createSubTodo,
           markSubTodoCompleted,
+          deleteSubTodo,
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>

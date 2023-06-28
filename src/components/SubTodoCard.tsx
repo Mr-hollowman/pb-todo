@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { TodoContext } from "../utils/Contexts";
 
 export default function SubTodoCard({ data, parId }: any) {
-  const { markSubTodoCompleted }: any = useContext(TodoContext);
+  const { markSubTodoCompleted, deleteSubTodo }: any = useContext(TodoContext);
   return (
     <Box sx={{ padding: 2 }}>
       {data?.subTodo?.map((item: any, index: Number) => {
@@ -22,7 +22,10 @@ export default function SubTodoCard({ data, parId }: any) {
                 onClick={() => markSubTodoCompleted(parId, item.id)}
               />
             ) : (
-              <DeleteForeverOutlined fontSize="small" onClick={() => {}} />
+              <DeleteForeverOutlined
+                fontSize="small"
+                onClick={() => deleteSubTodo(parId, item.id)}
+              />
             )}
           </Box>
         );
