@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { ToastContext, TodoContext } from "../utils/Contexts";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["All Todo", "Active", "Finished"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function NavBar() {
@@ -24,8 +24,9 @@ function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const { changeTheme, themeMode, logout }: any = React.useContext(TodoContext);
-  const { triggerModel }:any = React.useContext(ToastContext)
+  const { changeTheme, themeMode, setActivePage }: any =
+    React.useContext(TodoContext);
+  const { triggerModel }: any = React.useContext(ToastContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -95,7 +96,7 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => setActivePage(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -124,7 +125,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => setActivePage(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
@@ -159,7 +160,16 @@ function NavBar() {
                   {themeMode === "dark" ? "Light Theme" : "Dark Theme"}
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => triggerModel("Logout", "Are you sure want to logout", true, undefined)}>
+              <MenuItem
+                onClick={() =>
+                  triggerModel(
+                    "Logout",
+                    "Are you sure want to logout",
+                    true,
+                    undefined
+                  )
+                }
+              >
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
               {/* {settings.map((setting) => (

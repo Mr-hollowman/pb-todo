@@ -123,6 +123,7 @@ export default function App() {
   const [todo, setTodo] = useState<any>(
     JSON.parse(localStorage.getItem("todo") || JSON.stringify("undefined"))
   );
+  const [activePage, setActivePage] = useState("All")
 
   useEffect(() => {
     localStorage.setItem("todo", JSON.stringify(todo));
@@ -255,6 +256,7 @@ export default function App() {
     triggerToast("success", "SubTodo deleted");
   };
 
+  console.log(activePage,"activepage")
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -270,6 +272,8 @@ export default function App() {
           createSubTodo,
           markSubTodoCompleted,
           deleteSubTodo,
+          setActivePage,
+          activePage
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>

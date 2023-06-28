@@ -11,94 +11,104 @@ import {
 import SubTodoCard from "./SubTodoCard";
 
 export default function TodoCard() {
-  const { todo, markCompleted, deleteTodo, createSubTodo }: any =
+  const { todo, markCompleted, deleteTodo, createSubTodo, activePage }: any =
     useContext(TodoContext);
   const { triggerModel }: any = useContext(ToastContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
     <Container maxWidth="sm">
       {todo &&
-        todo?.todos?.map((item: any, index: any) => {
-          return (
-            <Box
-              key={index}
-              sx={{
-                padding: 2,
-                margin: 2,
-                borderBottom: "1px solid #fff",
-              }}
-            >
+        todo?.todos
+          ?.filter((item: any) =>
+            activePage === "Active"
+              ? item.active
+              : activePage === "Finished"
+              ? !item.active
+              : item
+          )
+          .map((item: any, index: any) => {
+            return (
               <Box
+                key={index}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 1,
+                  padding: 2,
+                  margin: 2,
+                  borderBottom: "1px solid #fff",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  {todoExpand === index ? (
-                    <ArrowDropUp
-                      onClick={() =>
-                        todoExpand !== null
-                          ? setTodoExpand(null)
-                          : setTodoExpand(index)
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 1,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    {todoExpand === index ? (
+                      <ArrowDropUp
+                        onClick={() =>
+                          todoExpand !== null
+                            ? setTodoExpand(null)
+                            : setTodoExpand(index)
+                        }
+                        fontSize="large"
+                      />
+                    ) : (
+                      <ArrowDropDown
+                        onClick={() =>
+                          todoExpand !== null
+                            ? setTodoExpand(null)
+                            : setTodoExpand(index)
+                        }
+                        fontSize="large"
+                      />
+                    )}
+                    <Box>
+                      {
+                        <Typography
+                          style={{
+                            textDecoration: item.active
+                              ? "none"
+                              : "line-through",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
                       }
-                      fontSize="large"
-                    />
-                  ) : (
-                    <ArrowDropDown
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: "15px" }}>
+                    <AddCircleOutlineRounded
                       onClick={() =>
-                        todoExpand !== null
-                          ? setTodoExpand(null)
-                          : setTodoExpand(index)
+                        triggerModel("Create a SubTodo", "", false, item.id)
                       }
-                      fontSize="large"
                     />
-                  )}
-                  <Box>
-                    {
-                      <Typography
-                        style={{
-                          textDecoration: item.active ? "none" : "line-through",
-                        }}
-                      >
-                        {item.title}
-                      </Typography>
-                    }
+
+                    {item.active && (
+                      <CheckCircleOutlineOutlined
+                        onClick={() => markCompleted(item.id)}
+                      />
+                    )}
+
+                    <DeleteForeverOutlined
+                      onClick={() =>
+                        triggerModel(
+                          "Delete Todo",
+                          "Are you sure want to delete",
+                          true,
+                          item.id
+                        )
+                      }
+                    />
                   </Box>
                 </Box>
-                <Box sx={{ display: "flex", gap: "15px" }}>
-                  <AddCircleOutlineRounded
-                    onClick={() =>
-                      triggerModel("Create a SubTodo", "", false, item.id)
-                    }
-                  />
-
-                  {item.active && (
-                    <CheckCircleOutlineOutlined
-                      onClick={() => markCompleted(item.id)}
-                    />
-                  )}
-
-                  <DeleteForeverOutlined
-                    onClick={() =>
-                      triggerModel(
-                        "Delete Todo",
-                        "Are you sure want to delete",
-                        true,
-                        item.id
-                      )
-                    }
-                  />
-                </Box>
+                {todoExpand === index && (
+                  <SubTodoCard data={item} parId={item.id} />
+                )}
               </Box>
-              {todoExpand === index && (
-                <SubTodoCard data={item} parId={item.id} />
-              )}
-            </Box>
-          );
-        })}
+            );
+          })}
     </Container>
   );
 }

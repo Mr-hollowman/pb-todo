@@ -1,10 +1,12 @@
-import { Button, Container } from "@mui/material";
-import { useEffect } from "react";
+import { Container } from "@mui/material";
+import { useContext, useEffect } from "react";
 import NavBar from "./NavBar";
 import CreateTodo from "./CreateTodo";
 import TodoCard from "./TodoCard";
 import MyModel from "./MyModel";
-export default function Dashboard({ changeTheme, logout, checkFakeUser }: any) {
+import { TodoContext } from "../utils/Contexts";
+export default function Dashboard({ checkFakeUser }: any) {
+  const { activePage }: any = useContext(TodoContext);
   useEffect(() => {
     // checkFakeUser()
   }, []);
@@ -12,7 +14,7 @@ export default function Dashboard({ changeTheme, logout, checkFakeUser }: any) {
     <Container>
       <MyModel />
       <NavBar />
-      <CreateTodo />
+      {activePage !== "Finished" && <CreateTodo />}
       <TodoCard />
     </Container>
   );
