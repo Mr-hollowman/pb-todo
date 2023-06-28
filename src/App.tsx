@@ -110,6 +110,12 @@ export default function App() {
         };
       }
     });
+    setToastContent((prev: any) => ({
+      ...prev,
+      open: true,
+      severity: "success",
+      message: "Todo created",
+    }));
   };
 
   const markCompleted = (id: Number) => {
@@ -124,19 +130,36 @@ export default function App() {
 
   const checkSubTodoFinished = (id: Number) => {
     const temp = todo.todos.filter((item: any) => item.id === id);
-    const res = temp?.subTodo?.map((item: any) => {
-      if (item.active) {
-        return true;
-      } else {
+    console.log(temp);
+    if (temp[0].subTodo.length === 0) return true;
+
+    for (let i = 0; i < temp[0].subTodo.length; i++) {
+      if (temp[0].subTodo[i].active) {
         return false;
+      } else {
+        return true;
       }
-    });
-    return res;
+    }
   };
 
   const deleteTodo = (id: Number) => {
-    const newTodo = todo.todos.filter((item: any) => item.id !== id);
-    setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+    if (checkSubTodoFinished(id)) {
+      const newTodo = todo.todos.filter((item: any) => item.id !== id);
+      setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+      setToastContent((prev: any) => ({
+        ...prev,
+        open: true,
+        severity: "success",
+        message: "Todo deleted successfully",
+      }));
+    } else {
+      setToastContent((prev: any) => ({
+        ...prev,
+        open: true,
+        severity: "warning",
+        message: "Some Subtodo is active",
+      }));
+    }
   };
 
   // subtodo related functions
@@ -158,6 +181,12 @@ export default function App() {
         todos: newTodo,
       };
     });
+    setToastContent((prev: any) => ({
+      ...prev,
+      open: true,
+      severity: "success",
+      message: "Subtodo created",
+    }));
   };
 
   const markSubTodoCompleted = (parId: any, id: Number) => {
