@@ -55,6 +55,30 @@ export default function App() {
     }));
   };
 
+  // model related functions
+  const [modelContent, setModelContent] = useState({
+    open: false,
+    title: "",
+    message: "",
+  });
+
+  const triggerModel = (title: String, message: String) => {
+    setModelContent((prev: any) => ({
+      ...prev,
+      open: true,
+      title: title,
+      message: message,
+    }));
+  };
+
+  const handleCloseModel = () => {
+    setModelContent((prev: any) => ({
+      ...prev,
+      open: false,
+      title: "",
+      message: "",
+    }));
+  };
   // user info related funcionssss
   const [userInfo, setUserInfo] = useState<any>(
     JSON.parse(localStorage.getItem("user") || JSON.stringify("undefined"))
@@ -97,6 +121,9 @@ export default function App() {
   }, [todo]);
 
   const createTodo = async (temp: String) => {
+    if(temp === ""){
+      return triggerToast("warning", "Cannot create empty todo");
+    }
     setTodo((prev: any) => {
       if (prev && prev != "undefined") {
         return {
@@ -209,7 +236,7 @@ export default function App() {
         todos: newTodo,
       };
     });
-    triggerToast('success', "SubTodo deleted")
+    triggerToast("success", "SubTodo deleted");
   };
 
   return (
@@ -230,7 +257,15 @@ export default function App() {
         }}
       >
         <UserContext.Provider value={{ userInfo, setUserInfo }}>
-          <ToastContext.Provider value={{ toastContent, triggerToast }}>
+          <ToastContext.Provider
+            value={{
+              toastContent,
+              triggerToast,
+              triggerModel,
+              modelContent,
+              handleCloseModel,
+            }}
+          >
             <Toaster
               handleClose={handleClose}
               severity={toastContent.severity}
