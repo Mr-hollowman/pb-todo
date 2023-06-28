@@ -1,9 +1,8 @@
-import { AddCircleOutlineRounded, PlusOneOutlined } from "@mui/icons-material";
+import { AddCircleOutlineRounded } from "@mui/icons-material";
 import {
   Avatar,
   Box,
   Button,
-  IconButton,
   TextField,
   Typography,
 } from "@mui/material";

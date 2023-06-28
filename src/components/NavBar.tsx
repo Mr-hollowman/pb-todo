@@ -15,7 +15,6 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { ToastContext, TodoContext } from "../utils/Contexts";
 
 const pages = ["All Todo", "Active", "Finished"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -172,11 +171,6 @@ function NavBar() {
               >
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
             </Menu>
           </Box>
         </Toolbar>
