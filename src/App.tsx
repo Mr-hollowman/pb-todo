@@ -99,7 +99,7 @@ export default function App() {
   const logout = () => {
     localStorage.removeItem("user");
     setUserInfo("undefined");
-    handleCloseModel()
+    handleCloseModel();
   };
 
   // const checkFakeUser = async () => {
@@ -129,7 +129,7 @@ export default function App() {
   }, [todo]);
 
   const createTodo = async (temp: String) => {
-    if (temp.trim() === "" ) {
+    if (temp.trim() === "") {
       return triggerToast("warning", "Cannot create empty todo");
     }
     setTodo((prev: any) => {
@@ -158,13 +158,17 @@ export default function App() {
   };
 
   const markCompleted = (id: Number) => {
-    const newTodo = todo.todos.map((item: any) => {
-      if (item.id === id) {
-        item.active = false;
-      }
-      return item;
-    });
-    setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+    if (checkSubTodoFinished(id)) {
+      const newTodo = todo.todos.map((item: any) => {
+        if (item.id === id) {
+          item.active = false;
+        }
+        return item;
+      });
+      setTodo((prev: any) => ({ ...prev, todos: newTodo }));
+    } else {
+      triggerToast("warning", "Finish all the SubTodo");
+    }
   };
 
   const checkSubTodoFinished = (id: Number) => {
@@ -188,13 +192,14 @@ export default function App() {
     } else {
       triggerToast("warning", "some SubTodo is active");
     }
-    handleCloseModel()
+    handleCloseModel();
   };
 
   // subtodo related functions
 
   const createSubTodo = (id: Number, tempSubTodo: String) => {
-    if(tempSubTodo.trim() === "") return triggerToast("warning", "cannot create empty todo")
+    if (tempSubTodo.trim() === "")
+      return triggerToast("warning", "cannot create empty todo");
     const newTodo = todo.todos.map((item: any) => {
       if (item.id === id) {
         item.subTodo.push({
@@ -212,7 +217,7 @@ export default function App() {
       };
     });
     triggerToast("success", "SubTodo created");
-    handleCloseModel()
+    handleCloseModel();
   };
 
   const markSubTodoCompleted = (parId: any, id: Number) => {

@@ -70,24 +70,27 @@ export default function TodoCard() {
                 </Box>
                 <Box sx={{ display: "flex", gap: "15px" }}>
                   <AddCircleOutlineRounded
-                    onClick={() => triggerModel("Create a SubTodo", "", false, item.id)}
+                    onClick={() =>
+                      triggerModel("Create a SubTodo", "", false, item.id)
+                    }
                   />
-                  {item.active ? (
+
+                  {item.active && (
                     <CheckCircleOutlineOutlined
                       onClick={() => markCompleted(item.id)}
                     />
-                  ) : (
-                    <DeleteForeverOutlined
-                      onClick={() =>
-                        triggerModel(
-                          "Delete Todo",
-                          "Are you sure want to delete",
-                          true,
-                          item.id
-                        )
-                      }
-                    />
                   )}
+
+                  <DeleteForeverOutlined
+                    onClick={() =>
+                      triggerModel(
+                        "Delete Todo",
+                        "Are you sure want to delete",
+                        true,
+                        item.id
+                      )
+                    }
+                  />
                 </Box>
               </Box>
               {todoExpand === index && (
