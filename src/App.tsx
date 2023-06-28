@@ -194,6 +194,7 @@ export default function App() {
   // subtodo related functions
 
   const createSubTodo = (id: Number, tempSubTodo: String) => {
+    if(tempSubTodo.trim() === "") return triggerToast("warning", "cannot create empty todo")
     const newTodo = todo.todos.map((item: any) => {
       if (item.id === id) {
         item.subTodo.push({
@@ -211,6 +212,7 @@ export default function App() {
       };
     });
     triggerToast("success", "SubTodo created");
+    handleCloseModel()
   };
 
   const markSubTodoCompleted = (parId: any, id: Number) => {

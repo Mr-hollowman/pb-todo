@@ -70,7 +70,7 @@ export default function TodoCard() {
                 </Box>
                 <Box sx={{ display: "flex", gap: "15px" }}>
                   <AddCircleOutlineRounded
-                    onClick={() => createSubTodo(item.id, "first subtodo")}
+                    onClick={() => triggerModel("Create a SubTodo", "", false, item.id)}
                   />
                   {item.active ? (
                     <CheckCircleOutlineOutlined

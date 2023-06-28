@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { ToastContext, TodoContext } from "../utils/Contexts";
 
 export default function MyModel() {
   const { modelContent, handleCloseModel }: any = useContext(ToastContext);
-  const { deleteTodo, logout }: any = useContext(TodoContext);
+  const { deleteTodo, logout, createSubTodo }: any = useContext(TodoContext);
+  const [tempContent, setTempContent] = useState("");
   return (
     <Modal
       open={modelContent.open}
@@ -25,24 +26,53 @@ export default function MyModel() {
           p: 4,
         }}
       >
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {modelContent.title}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {modelContent.message}
-        </Typography>
-        <Box sx={{ marginTop: 3, display: "flex", gap: 1 }}>
-          <Button variant="outlined" onClick={handleCloseModel}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => modelContent.id ? deleteTodo(modelContent.id): logout()}
-          >
-            Confirm
-          </Button>
-        </Box>
+        {modelContent.isDelete ? (
+          <>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {modelContent.title}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {modelContent.message}
+            </Typography>
+            <Box sx={{ marginTop: 3, display: "flex", gap: 1 }}>
+              <Button variant="outlined" onClick={handleCloseModel}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() =>
+                  modelContent.id ? deleteTodo(modelContent.id) : logout()
+                }
+              >
+                Confirm
+              </Button>
+            </Box>
+          </>
+        ) : (
+          <>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {modelContent.title}
+            </Typography>
+            <TextField
+              margin="normal"
+              fullWidth
+              id="text"
+              placeholder="Create subTodo"
+              autoFocus
+              name="todo"
+              onChange={(e)=>setTempContent(e.target.value)}
+            />
+            <Box sx={{ marginTop: 3, display: "flex", gap: 1 }}>
+              <Button variant="outlined" onClick={handleCloseModel}>
+                Cancel
+              </Button>
+              <Button variant="contained" color="error" onClick={() => createSubTodo(modelContent.id, tempContent)}>
+                Confirm
+              </Button>
+            </Box>
+          </>
+        )}
       </Box>
     </Modal>
   );
