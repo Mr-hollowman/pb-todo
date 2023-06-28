@@ -256,7 +256,6 @@ export default function App() {
     triggerToast("success", "SubTodo deleted");
   };
 
-  console.log(activePage,"activepage")
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
