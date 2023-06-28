@@ -62,12 +62,19 @@ export default function App() {
     message: "",
   });
 
-  const triggerModel = (title: String, message: String) => {
+  const triggerModel = (
+    title: String,
+    message: String,
+    type: boolean,
+    id: Number
+  ) => {
     setModelContent((prev: any) => ({
       ...prev,
       open: true,
       title: title,
       message: message,
+      isDelete: type,
+      id: id,
     }));
   };
 
@@ -121,7 +128,7 @@ export default function App() {
   }, [todo]);
 
   const createTodo = async (temp: String) => {
-    if(temp === ""){
+    if (temp === "") {
       return triggerToast("warning", "Cannot create empty todo");
     }
     setTodo((prev: any) => {
@@ -180,6 +187,7 @@ export default function App() {
     } else {
       triggerToast("warning", "some SubTodo is active");
     }
+    handleCloseModel()
   };
 
   // subtodo related functions

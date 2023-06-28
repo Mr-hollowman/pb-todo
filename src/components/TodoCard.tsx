@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { TodoContext } from "../utils/Contexts";
+import { ToastContext, TodoContext } from "../utils/Contexts";
 import {
   AddCircleOutlineRounded,
   ArrowDropDown,
@@ -13,6 +13,7 @@ import SubTodoCard from "./SubTodoCard";
 export default function TodoCard() {
   const { todo, markCompleted, deleteTodo, createSubTodo }: any =
     useContext(TodoContext);
+  const { triggerModel }: any = useContext(ToastContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
     <Container maxWidth="sm">
@@ -77,7 +78,14 @@ export default function TodoCard() {
                     />
                   ) : (
                     <DeleteForeverOutlined
-                      onClick={() => deleteTodo(item.id)}
+                      onClick={() =>
+                        triggerModel(
+                          "Delete Todo",
+                          "Are you sure want to delete",
+                          true,
+                          item.id
+                        )
+                      }
                     />
                   )}
                 </Box>

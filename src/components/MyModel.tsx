@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Box, Modal, Typography } from "@mui/material";
-import { ToastContext } from "../utils/Contexts";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { ToastContext, TodoContext } from "../utils/Contexts";
 
-export default function MyModel({ modelTitle, modelMessage }: any) {
+export default function MyModel() {
   const { modelContent, handleCloseModel }: any = useContext(ToastContext);
+  const { deleteTodo }: any = useContext(TodoContext);
   return (
     <Modal
       open={modelContent.open}
@@ -30,6 +31,18 @@ export default function MyModel({ modelTitle, modelMessage }: any) {
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {modelContent.message}
         </Typography>
+        <Box sx={{ marginTop: 3, display: "flex", gap: 1 }}>
+          <Button variant="outlined" onClick={handleCloseModel}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => deleteTodo(modelContent.id)}
+          >
+            Confirm
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );
