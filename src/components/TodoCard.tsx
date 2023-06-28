@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, IconButton, Tooltip, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { ToastContext, TodoContext } from "../utils/Contexts";
 import {
@@ -11,8 +11,7 @@ import {
 import SubTodoCard from "./SubTodoCard";
 
 export default function TodoCard() {
-  const { todo, markCompleted, activePage }: any =
-    useContext(TodoContext);
+  const { todo, markCompleted, activePage }: any = useContext(TodoContext);
   const { triggerModel }: any = useContext(ToastContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
@@ -79,28 +78,37 @@ export default function TodoCard() {
                     </Box>
                   </Box>
                   <Box sx={{ display: "flex", gap: "15px" }}>
-                    <AddCircleOutlineRounded
-                      onClick={() =>
-                        triggerModel("Create a SubTodo", "", false, item.id)
-                      }
-                    />
+                    <Tooltip title="Create SubTodo">
+                      <IconButton
+                        onClick={() =>
+                          triggerModel("Create a SubTodo", "", false, item.id)
+                        }
+                      >
+                        <AddCircleOutlineRounded />
+                      </IconButton>
+                    </Tooltip>
 
                     {item.active && (
-                      <CheckCircleOutlineOutlined
-                        onClick={() => markCompleted(item.id)}
-                      />
+                      <Tooltip title="Mark as Complte">
+                        <IconButton onClick={() => markCompleted(item.id)}>
+                          <CheckCircleOutlineOutlined />
+                        </IconButton>
+                      </Tooltip>
                     )}
-
-                    <DeleteForeverOutlined
-                      onClick={() =>
-                        triggerModel(
-                          "Delete Todo",
-                          "Are you sure want to delete",
-                          true,
-                          item.id
-                        )
-                      }
-                    />
+                    <Tooltip title="Delete Todo">
+                      <IconButton
+                        onClick={() =>
+                          triggerModel(
+                            "Delete Todo",
+                            "Are you sure want to delete",
+                            true,
+                            item.id
+                          )
+                        }
+                      >
+                        <DeleteForeverOutlined />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </Box>
                 {todoExpand === index && (

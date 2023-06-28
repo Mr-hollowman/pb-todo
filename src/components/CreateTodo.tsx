@@ -28,6 +28,7 @@ export default function CreateTodo() {
         justifyContent: "center",
         alignItems: "center",
         padding: 2,
+        gap:2
       }}
     >
       <TextField
