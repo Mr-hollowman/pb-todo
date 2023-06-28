@@ -4,7 +4,7 @@ import { ToastContext, TodoContext } from "../utils/Contexts";
 
 export default function MyModel() {
   const { modelContent, handleCloseModel }: any = useContext(ToastContext);
-  const { deleteTodo }: any = useContext(TodoContext);
+  const { deleteTodo, logout }: any = useContext(TodoContext);
   return (
     <Modal
       open={modelContent.open}
@@ -38,7 +38,7 @@ export default function MyModel() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deleteTodo(modelContent.id)}
+            onClick={() => modelContent.id ? deleteTodo(modelContent.id): logout()}
           >
             Confirm
           </Button>

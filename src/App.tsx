@@ -99,6 +99,7 @@ export default function App() {
   const logout = () => {
     localStorage.removeItem("user");
     setUserInfo("undefined");
+    handleCloseModel()
   };
 
   // const checkFakeUser = async () => {

@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { TodoContext } from "../utils/Contexts";
+import { ToastContext, TodoContext } from "../utils/Contexts";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -25,6 +25,7 @@ function NavBar() {
     null
   );
   const { changeTheme, themeMode, logout }: any = React.useContext(TodoContext);
+  const { triggerModel }:any = React.useContext(ToastContext)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -158,7 +159,7 @@ function NavBar() {
                   {themeMode === "dark" ? "Light Theme" : "Dark Theme"}
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => logout()}>
+              <MenuItem onClick={() => triggerModel("Logout", "Are you sure want to logout", true, undefined)}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
               {/* {settings.map((setting) => (
