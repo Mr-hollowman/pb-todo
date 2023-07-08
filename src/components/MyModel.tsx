@@ -6,6 +6,7 @@ export default function MyModel() {
   const { modelContent, handleCloseModel }: any = useContext(ToastContext);
   const { deleteTodo, logout, createSubTodo }: any = useContext(TodoContext);
   const [tempContent, setTempContent] = useState("");
+  console.log(modelContent,"modelcontent")
   return (
     <Modal
       open={modelContent.open}

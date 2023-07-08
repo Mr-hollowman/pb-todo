@@ -117,54 +117,56 @@ export default function App() {
     localStorage.setItem("todo", JSON.stringify(todo));
   }, [todo]);
 
-  // const createTodo = async (temp: String) => {
-  //   if (temp.trim() === "") {
-  //     return triggerToast("warning", "Cannot create empty todo");
-  //   }
-  //   setTodo((prev: any) => {
-  //     if (prev && prev != "undefined") {
-  //       return {
-  //         ...prev,
-  //         userId: userInfo[0].id,
-  //         todos: [
-  //           ...prev?.todos,
-  //           {
-  //             id: prev?.todos?.length + 1 || 0,
-  //             title: temp,
-  //             subTodo: [],
-  //             active: true,
-  //           },
-  //         ],
-  //       };
-  //     } else {
-  //       return {
-  //         userId: userInfo[0].id,
-  //         todos: [{ id: 0, title: temp, subTodo: [], active: true }],
-  //       };
-  //     }
-  //   });
-  //   triggerToast("success", "Todo created");
-  // };
-
   const createTodo = async (temp: String) => {
-    await axios({
-      method: "POST",
-      url: `${URL}/todos/createTodoNew`,
-      data: { title: temp },
-    })
-      .then((res) => {
-        if (res.data === 200) {
-          triggerToast("success", "Todo created successfully");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        triggerToast(
-          "error",
-          error?.respose?.data?.message || "something went wrong"
-        );
-      });
+    if (temp.trim() === "") {
+      return triggerToast("warning", "Cannot create empty todo");
+    }
+    setTodo((prev: any) => {
+      if (prev && prev != "undefined") {
+        return {
+          ...prev,
+          userId: userInfo._id,
+          todos: [
+            ...prev?.todos,
+            {
+              id: prev?.todos?.length + 1 ,
+              title: temp,
+              subTodo: [],
+              active: true,
+            },
+          ],
+        };
+      } else {
+        return {
+          userId: userInfo._id,
+          todos: [{ id: 1, title: temp, subTodo: [], active: true }],
+        };
+      }
+    });
+    triggerToast("success", "Todo created");
   };
+
+  // const createTodo = async (temp: String) => {
+  //   await axios({
+  //     method: "POST",
+  //     url: `${URL}/todos/createTodoNew`,
+  //     data: { title: temp },
+  //   })
+  //     .then((res) => {
+  //       if (res.data === 200) {
+  //         triggerToast("success", "Todo created successfully");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       triggerToast(
+  //         "error",
+  //         error?.respose?.data?.message || "something went wrong"
+  //       );
+  //     });
+  // };
+  
+  
   const markCompleted = (id: Number) => {
     if (checkSubTodoFinished(id)) {
       const newTodo = todo.todos.map((item: any) => {

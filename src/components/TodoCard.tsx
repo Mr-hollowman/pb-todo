@@ -1,6 +1,6 @@
 import { Box, Container, IconButton, Tooltip, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { ToastContext, TodoContext } from "../utils/Contexts";
+import { ToastContext, TodoContext, UserContext } from "../utils/Contexts";
 import {
   AddCircleOutlineRounded,
   ArrowDropDown,
@@ -12,11 +12,12 @@ import SubTodoCard from "./SubTodoCard";
 
 export default function TodoCard() {
   const { todo, markCompleted, activePage }: any = useContext(TodoContext);
+  const { userInfo}: any = useContext(UserContext);
   const { triggerModel }: any = useContext(ToastContext);
   const [todoExpand, setTodoExpand] = useState(null);
   return (
     <Container maxWidth="sm">
-      {todo &&
+      {todo.userId === userInfo._id && todo &&
         todo?.todos
           ?.filter((item: any) =>
             activePage === "Active"

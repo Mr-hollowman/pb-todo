@@ -66,9 +66,9 @@ export default function SignIn() {
       .then((res) => {
         setIsLoading(false);
         if (res.status === 200 && !isSignUp) {
+          navigate("/");
           setUserInfo(res.data);
           triggerToast("success", "Login success");
-          navigate("/");
         } else if (res.status === 200 && isSignUp) {
           triggerToast("success", "user created, please login");
           setIsSignup(false);
