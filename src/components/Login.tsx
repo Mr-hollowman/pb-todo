@@ -76,8 +76,8 @@ export default function SignIn() {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error.response.data);
-        triggerToast("error", error.response.data.message);
+        console.log(error?.response?.data);
+        triggerToast("error", error?.response?.data?.message || "something went wrong");
       });
   };
   return (
