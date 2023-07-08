@@ -10,6 +10,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
 import { ModelContentTypes, ToastContentTypes } from "./assets/Types";
 import NotFound from "./components/NotFound";
+import axios from "axios";
+import { URL } from "./assets/Variables";
 
 export default function App() {
   // theme funcitons
@@ -62,7 +64,7 @@ export default function App() {
     title: "",
     message: "",
     isDelete: false,
-    id:1000
+    id: 1000,
   });
 
   const triggerModel = (
@@ -105,23 +107,6 @@ export default function App() {
     handleCloseModel();
   };
 
-  // const checkFakeUser = async () => {
-  //   const resp = await fetch(`${URL}/users`)
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       const user = res.filter((item: any) => {
-  //         return (
-  //           item.mailId === userInfo[0].mailId &&
-  //           item.password === userInfo[0].password
-  //         );
-  //       });
-  //       return user;
-  //     });
-  //   if (resp.length === 0) {
-  //     logout();
-  //   }
-  // };
-
   //  todo related functions
   const [todo, setTodo] = useState<any>(
     JSON.parse(localStorage.getItem("todo") || JSON.stringify("undefined"))
@@ -132,35 +117,54 @@ export default function App() {
     localStorage.setItem("todo", JSON.stringify(todo));
   }, [todo]);
 
-  const createTodo = async (temp: String) => {
-    if (temp.trim() === "") {
-      return triggerToast("warning", "Cannot create empty todo");
-    }
-    setTodo((prev: any) => {
-      if (prev && prev != "undefined") {
-        return {
-          ...prev,
-          userId: userInfo[0].id,
-          todos: [
-            ...prev?.todos,
-            {
-              id: prev?.todos?.length + 1 || 0,
-              title: temp,
-              subTodo: [],
-              active: true,
-            },
-          ],
-        };
-      } else {
-        return {
-          userId: userInfo[0].id,
-          todos: [{ id: 0, title: temp, subTodo: [], active: true }],
-        };
-      }
-    });
-    triggerToast("success", "Todo created");
-  };
+  // const createTodo = async (temp: String) => {
+  //   if (temp.trim() === "") {
+  //     return triggerToast("warning", "Cannot create empty todo");
+  //   }
+  //   setTodo((prev: any) => {
+  //     if (prev && prev != "undefined") {
+  //       return {
+  //         ...prev,
+  //         userId: userInfo[0].id,
+  //         todos: [
+  //           ...prev?.todos,
+  //           {
+  //             id: prev?.todos?.length + 1 || 0,
+  //             title: temp,
+  //             subTodo: [],
+  //             active: true,
+  //           },
+  //         ],
+  //       };
+  //     } else {
+  //       return {
+  //         userId: userInfo[0].id,
+  //         todos: [{ id: 0, title: temp, subTodo: [], active: true }],
+  //       };
+  //     }
+  //   });
+  //   triggerToast("success", "Todo created");
+  // };
 
+  const createTodo = async (temp: String) => {
+    await axios({
+      method: "POST",
+      url: `${URL}/todos/createTodoNew`,
+      data: { title: temp },
+    })
+      .then((res) => {
+        if (res.data === 200) {
+          triggerToast("success", "Todo created successfully");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        triggerToast(
+          "error",
+          error?.respose?.data?.message || "something went wrong"
+        );
+      });
+  };
   const markCompleted = (id: Number) => {
     if (checkSubTodoFinished(id)) {
       const newTodo = todo.todos.map((item: any) => {
@@ -294,22 +298,22 @@ export default function App() {
               open={toastContent.open}
               message={toastContent.message}
             />
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute userInfo={userInfo}>
-                      <Dashboard
-                        changeTheme={changeTheme}
-                        logout={logout}
-                        // checkFakeUser={checkFakeUser}
-                      />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path='*' element={<NotFound />}></Route>
-              </Routes>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute userInfo={userInfo}>
+                    <Dashboard
+                      changeTheme={changeTheme}
+                      logout={logout}
+                      // checkFakeUser={checkFakeUser}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<NotFound />}></Route>
+            </Routes>
           </ToastContext.Provider>
         </UserContext.Provider>
       </TodoContext.Provider>
