@@ -39,6 +39,7 @@ export default function SignIn() {
   const { triggerToast }: any = useContext(ToastContext);
   const { setUserInfo }: any = useContext(UserContext);
   const [isSignUp, setIsSignup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user || user === "undefined") {
@@ -56,12 +57,14 @@ export default function SignIn() {
       password: data.get("password"),
       name: data.get("fullName"),
     };
+    setIsLoading(true);
     await axios({
       method: "POST",
       url: `${URL}/users/${isSignUp ? "signup" : "signin"}`,
       data: { ...credentials },
     })
       .then((res) => {
+        setIsLoading(false);
         if (res.status === 200 && !isSignUp) {
           setUserInfo(res.data);
           triggerToast("success", "Login success");
@@ -72,6 +75,7 @@ export default function SignIn() {
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         console.log(error.response.data);
         triggerToast("error", error.response.data.message);
       });
@@ -138,8 +142,9 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
           >
-            {isSignUp ? "Sign up" : "Sign in"}
+            {isLoading ? "setting Up...." : isSignUp ? "Sign up" : "Sign in"}
           </Button>
           <Grid container>
             <Grid item>
