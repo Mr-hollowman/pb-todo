@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { URL } from "../assets/Variables";
 import { ToastContext, UserContext } from "../utils/Contexts";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Copyright(props: any) {
   return (
@@ -46,52 +47,35 @@ export default function SignIn() {
       navigate("/");
     }
   }, []);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (!isSignUp) {
-      const resp = await fetch(`${URL}/users`)
-        .then((res) => res.json())
-        .then((res) => {
-          const user = res.filter((item: any) => {
-            return (
-              item.mailId === data.get("email") &&
-              item.password === data.get("password")
-            );
-          });
-          return user;
-        });
-      if (resp.length === 0) {
-        triggerToast("error", "wrong credentials");
-      } else {
-        setUserInfo(resp);
-        triggerToast("success", "Login success");
-        navigate("/");
-      }
-    } else {
-      await fetch(`${URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          mailId: data.get("email"),
-          password: data.get("password"),
-          fullName: data.get("fullName"),
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          setUserInfo(res);
-          triggerToast("success", "Signup Success");
+    const credentials = {
+      email: data.get("email"),
+      password: data.get("password"),
+      name: data.get("fullName"),
+    };
+    await axios({
+      method: "POST",
+      url: `${URL}/users/${isSignUp ? "signup" : "signin"}`,
+      data: { ...credentials },
+    })
+      .then((res) => {
+        if (res.status === 200 && !isSignUp) {
+          setUserInfo(res.data);
+          triggerToast("success", "Login success");
           navigate("/");
-        })
-        .catch((err) => {
-          triggerToast("error", "Something went wrong");
-        });
-    }
+        } else if (res.status === 200 && isSignUp) {
+          triggerToast("success", "user created, please login");
+          setIsSignup(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        triggerToast("error", error.response.data.message);
+      });
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
