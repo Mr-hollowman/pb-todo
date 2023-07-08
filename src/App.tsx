@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ToastContext, TodoContext, UserContext } from "./utils/Contexts";
 import Toaster from "./components/Toaster";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { PaletteMode } from "@mui/material";
 import { ModelContentTypes, ToastContentTypes } from "./assets/Types";
+import NotFound from "./components/NotFound";
 
 export default function App() {
   // theme funcitons
@@ -293,7 +294,6 @@ export default function App() {
               open={toastContent.open}
               message={toastContent.message}
             />
-            <Router>
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route
@@ -308,8 +308,8 @@ export default function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route path='*' element={<NotFound />}></Route>
               </Routes>
-            </Router>
           </ToastContext.Provider>
         </UserContext.Provider>
       </TodoContext.Provider>
